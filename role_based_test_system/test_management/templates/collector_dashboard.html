@@ -2,17 +2,50 @@
 {% block title %}Collector Dashboard{% endblock %}
 {% block content %}
 
+<h2 class="mb-4">Collector Dashboard</h2>
 
-<h2>Collector Dashboard</h2>
-<div class="list-group">
-<a href="{% url 'add_test' %}" class="list-group-item list-group-item-action">Add Test</a> | 
-<a href="{% url 'student_ranking' %}" class="list-group-item list-group-item-action">Student Rankings</a> | 
-<a href="{% url 'student_report' %}" class="list-group-item list-group-item-action">Student Report</a>
-<ul>
-    {% for test in tests %}
-        <li>{{ test.name }} - Active: {{ test.active }}</li>
-        <a href="{% url 'toggle_test' test.id %}">Toggle Status</a>
-    {% endfor %}
-</ul>
+<!-- Action Buttons -->
+<div class="d-grid gap-3 mb-4">
+    <a href="{% url 'add_test' %}" class="btn btn-primary w-50">Add Test</a>
+    <a href="{% url 'student_ranking' %}" class="btn btn-success w-50">Student Rankings</a>
+    <a href="{% url 'student_report' %}" class="btn btn-info w-50">Student Report</a>
 </div>
+
+<!-- Test List -->
+<h3 class="mb-3">Test List</h3>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Test Name</th>
+            <th>Subject</th>
+            <th>Test Date</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for test in tests %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.subject }}</td>
+            <td>{{ test.test_date|date:"d M Y" }}</td>
+            <td>
+                {% if test.active %}
+                    <span class="badge text-bg-success">Active</span>
+                {% else %}
+                    <span class="badge text-bg-danger">Inactive</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'toggle_test' test.id %}" class="btn btn-sm btn-warning">Toggle Status</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No tests available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
