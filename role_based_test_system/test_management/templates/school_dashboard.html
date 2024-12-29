@@ -1,14 +1,11 @@
-
 {% extends 'base.html' %}
 {% block title %}School Dashboard{% endblock %}
 {% block content %}
-<h2>School Dashboard</h2>
-<div class="list-group">
-<ul>
-    <li><a href="{% url 'add_student' %}" class="list-group-item list-group-item-action">Add Student</a></li>
-    <li><a href="{% url 'add_marks' %}" class="list-group-item list-group-item-action">Add Marks</a></li>
-    <li><a href="{% url 'student_list' %}" class="list-group-item list-group-item-action">Student List</a></li>
-    <li><a href="{% url 'test_list' %}" class="list-group-item list-group-item-action"> Test List</a></li>
-</ul>
-</div
+<h2 class="mb-4">School Dashboard</h2>
+<div class="d-grid gap-3">
+    <a href="{% url 'add_student' %}" class="btn btn-primary w-50" >Add Student</a>
+    <a href="{% url 'add_marks' %}" class="btn btn-success w-50">Add Marks</a>
+    <a href="{% url 'student_list' %}" class="btn btn-info w-50">Student List</a>
+    <a href="{% url 'test_list' %}" class="btn btn-warning w-50">Test List</a>
+</div>
 {% endblock %}
