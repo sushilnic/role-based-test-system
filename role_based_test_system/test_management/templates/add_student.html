@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Add Student{% endblock %}
 {% block content %}
+
 <h2 class="mb-4">Add Student</h2>
-<form method="POST" class="row g-3">
+
+<!-- Add Student Form -->
+<form method="POST" class="row g-3 mb-4">
     {% csrf_token %}
     <div class="col-md-6">
         <label for="name" class="form-label">Student Name</label>
@@ -16,4 +19,35 @@
         <button type="submit" class="btn btn-primary">Add Student</button>
     </div>
 </form>
+
+<!-- Student List Table -->
+<h3 class="mt-4">Student List</h3>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Roll Number</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.roll_number }}</td>
+            <td>
+                <a href="{% url 'edit_student' student.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                <a href="{% url 'delete_student' student.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this student?');">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No students added yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

@@ -21,7 +21,19 @@ def user_login(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
-
+def edit_marks(request, test_id):
+    test = get_object_or_404(Test, id=test_id)
+    students = Student.objects.filter(test=test)
+    
+    if request.method == 'POST':
+        for student in students:
+            mark_key = f"mark_{student.id}"
+            if mark_key in request.POST:
+                student.marks = request.POST[mark_key]
+                student.save()
+        return redirect('collector_dashboard')
+    
+    return render(request, 'edit_marks.html', {'test': test, 'students': students})
 @login_required
 def user_logout(request):
     logout(request)
@@ -121,6 +133,15 @@ from django.shortcuts import get_object_or_404
 
 @login_required
 def add_student(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        roll_number = request.POST.get('roll_number')
+        if name and roll_number:
+            Student.objects.create(name=name, roll_number=roll_number)
+            return redirect('add_student')
+    
+    students = Student.objects.all()
+    return render(request, 'add_student.html', {'students': students})
     if request.user.userprofile.role != 'school':
         return redirect('dashboard')
     
@@ -162,23 +183,52 @@ def delete_student(request, student_id):
     return redirect('school_dashboard')
 
 
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Student, Test, Marks
 @login_required
 def add_marks(request):
-    if request.user.userprofile.role != 'school':
-        return redirect('dashboard')
+    students = Student.objects.all()
+    tests = Test.objects.all()
+    marks = Marks.objects.all()
+    
     if request.method == 'POST':
-        student = Student.objects.get(id=request.POST['student_id'])
-        test = Test.objects.get(id=request.POST['test_id'])
-        Marks.objects.update_or_create(
+        student_id = request.POST.get('student_id')
+        test_id = request.POST.get('test_id')
+        marks_value = request.POST.get('marks')
+        
+        student = get_object_or_404(Student, id=student_id)
+        test = get_object_or_404(Test, id=test_id)
+        
+        # Create or Update Mark Entry
+        mark_entry, created = Marks.objects.update_or_create(
             student=student,
             test=test,
-            defaults={'marks': request.POST['marks']}
+            defaults={'marks': marks_value}
         )
-        return redirect('school_dashboard')
-    students = Student.objects.filter(school__created_by=request.user)
-    tests = Test.objects.filter(active=True)
-    return render(request, 'add_marks.html', {'students': students, 'tests': tests})
+        return redirect('add_marks')
+    
+    return render(request, 'add_marks.html', {
+        'students': students,
+        'tests': tests,
+        'marks': marks
+    })
+@login_required
+def edit_student_mark(request, mark_id):
+    mark = get_object_or_404(Marks, id=mark_id)
+    
+    if request.method == 'POST':
+        new_marks = request.POST.get('marks')
+        mark.marks = new_marks
+        mark.save()
+        return redirect('add_marks')
+    
+    return render(request, 'edit_student_mark.html', {'mark': mark})
 
+
+def delete_student_mark(request, mark_id):
+    mark = get_object_or_404(Marks, id=mark_id)
+    mark.delete()
+    return redirect('add_marks')
 
 @login_required
 def student_list(request):

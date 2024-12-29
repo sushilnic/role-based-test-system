@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Add Marks{% endblock %}
 {% block content %}
+
 <h2 class="mb-4">Add Marks for Students</h2>
-<form method="POST" class="row g-3">
+
+<!-- Add Marks Form -->
+<form method="POST" class="row g-3 mb-4">
     {% csrf_token %}
     <div class="col-md-6">
         <label for="student" class="form-label">Student</label>
@@ -28,4 +31,35 @@
         <button type="submit" class="btn btn-success">Submit Marks</button>
     </div>
 </form>
+
+<!-- Display Marks List -->
+<h3 class="mb-3">Student Marks List</h3>
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Student Name</th>
+            <th>Test</th>
+            <th>Marks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mark in marks %}
+        <tr>
+            <td>{{ mark.student.name }}</td>
+            <td>{{ mark.test.name }}</td>
+            <td>{{ mark.marks }}</td>
+            <td>
+                <a href="{% url 'edit_student_mark' mark.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                <a href="{% url 'delete_student_mark' mark.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No marks have been added yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

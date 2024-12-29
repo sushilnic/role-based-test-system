@@ -34,7 +34,14 @@ class Student(models.Model):
     name = models.CharField(max_length=255)
     roll_number = models.CharField(max_length=50)
 
+from django.db import models
+
 class Marks(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
-    marks = models.FloatField()
+    marks = models.IntegerField()
+    
+    def __str__(self):
+        return f"{self.student.name} - {self.test.name}: {self.marks}"
+
+
