@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}Other Dashboard{% endblock %}
+{% block content %}
+<h2>Other User Dashboard</h2>
+<p>Welcome, {{ request.user.username }}! You can view top students' rankings here:</p>
+<a href="{% url 'top_students' %}">View Top Students</a>
+{% endblock %}

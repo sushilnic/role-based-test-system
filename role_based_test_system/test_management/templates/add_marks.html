@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Add Marks{% endblock %}
+{% block content %}
+<h2 class="mb-4">Add Marks for Students</h2>
+<form method="POST" class="row g-3">
+    {% csrf_token %}
+    <div class="col-md-6">
+        <label for="student" class="form-label">Student</label>
+        <select class="form-select" id="student" name="student_id">
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="test" class="form-label">Test</label>
+        <select class="form-select" id="test" name="test_id">
+            {% for test in tests %}
+            <option value="{{ test.id }}">{{ test.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="marks" class="form-label">Marks</label>
+        <input type="number" class="form-control" id="marks" name="marks" required>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success">Submit Marks</button>
+    </div>
+</form>
+{% endblock %}

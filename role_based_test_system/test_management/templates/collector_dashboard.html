@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Collector Dashboard{% endblock %}
+{% block content %}
+
+
+<h2>Collector Dashboard</h2>
+<div class="list-group">
+<a href="{% url 'add_test' %}" class="list-group-item list-group-item-action">Add Test</a> | 
+<a href="{% url 'student_ranking' %}" class="list-group-item list-group-item-action">Student Rankings</a> | 
+<a href="{% url 'student_report' %}" class="list-group-item list-group-item-action">Student Report</a>
+<ul>
+    {% for test in tests %}
+        <li>{{ test.name }} - Active: {{ test.active }}</li>
+        <a href="{% url 'toggle_test' test.id %}">Toggle Status</a>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}

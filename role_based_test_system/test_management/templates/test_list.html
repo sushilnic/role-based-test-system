@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Test List{% endblock %}
+{% block content %}
+<h2 class="mb-4">Available Tests</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Test Name</th>
+            <th>Subject</th>
+            <th>Date</th>
+            <th>Question File</th>
+            <th>Answer File</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for test in tests %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.subject }}</td>
+            <td>{{ test.date }}</td>
+            <td>
+                {% if test.question_file %}
+                    <a href="{{ test.question_file.url }}" class="btn btn-sm btn-outline-primary" download>Download Question</a>
+                {% else %}
+                    No File
+                {% endif %}
+            </td>
+            <td>
+                {% if test.answer_file %}
+                    <a href="{{ test.answer_file.url }}" class="btn btn-sm btn-outline-success" download>Download Answer</a>
+                {% else %}
+                    No File
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">No active tests available.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

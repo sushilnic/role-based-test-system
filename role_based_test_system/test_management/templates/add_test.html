@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Add Test{% endblock %}
+{% block content %}
+<h2>Add Test</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Test Name:</label><input type="text" name="name" required><br>
+    <label>Subject:</label><input type="text" name="subject" required><br>
+    <label>Date:</label><input type="date" name="date" required><br>
+    <label>Question File:</label><input type="file" name="question_file"><br>
+    <label>Answer File:</label><input type="file" name="answer_file"><br>
+    <button type="submit">Create Test</button>
+</form>
+{% endblock %}

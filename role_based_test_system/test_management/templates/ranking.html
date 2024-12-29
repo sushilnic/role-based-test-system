@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Student Rankings{% endblock %}
+{% block content %}
+<h2>Student Rankings</h2>
+<table>
+    <tr>
+        <th>Rank</th>
+        <th>Student</th>
+        <th>School</th>
+        <th>Marks</th>
+    </tr>
+    {% for record in rankings %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ record.student.name }}</td>
+        <td>{{ record.student.school.name }}</td>
+        <td>{{ record.marks }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

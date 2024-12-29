@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Top Students{% endblock %}
+{% block content %}
+<h2 class="mb-4">Top 3 Students</h2>
+<table class="table table-hover table-bordered">
+    <thead class="table-primary">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Marks</th>
+            <th>School</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in top_students %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.marks }}</td>
+            <td>{{ student.school.name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No data available</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
