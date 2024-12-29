@@ -1,14 +1,38 @@
 {% extends 'base.html' %}
 {% block title %}Add Test{% endblock %}
 {% block content %}
-<h2>Add Test</h2>
-<form method="post" enctype="multipart/form-data">
+<h2 class="mb-4">Add New Test</h2>
+<form method="POST" enctype="multipart/form-data" class="row g-3">
     {% csrf_token %}
-    <label>Test Name:</label><input type="text" name="name" required><br>
-    <label>Subject:</label><input type="text" name="subject" required><br>
-    <label>Date:</label><input type="date" name="date" required><br>
-    <label>Question File:</label><input type="file" name="question_file"><br>
-    <label>Answer File:</label><input type="file" name="answer_file"><br>
-    <button type="submit">Create Test</button>
+    <div class="col-md-6">
+        <label for="name" class="form-label">Test Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="col-md-6">
+        <label for="subject" class="form-label">Subject</label>
+        <input type="text" class="form-control" id="subject" name="subject" required>
+    </div>
+    <div class="col-md-6">
+        <label for="date" class="form-label">Test Date</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+    </div>
+    <div class="col-md-6">
+        <label for="question_file" class="form-label">Question File</label>
+        <input type="file" class="form-control" id="question_file" name="question_file">
+    </div>
+    <div class="col-md-6">
+        <label for="answer_file" class="form-label">Answer File</label>
+        <input type="file" class="form-control" id="answer_file" name="answer_file">
+    </div>
+    <div class="col-md-6">
+        <label for="active" class="form-label">Active</label>
+        <select class="form-select" id="active" name="active">
+            <option value="True">Yes</option>
+            <option value="False">No</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Save Test</button>
+    </div>
 </form>
 {% endblock %}
